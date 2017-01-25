@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
-from bin import Core, Interface
+from bin import *
 
 core = Core()
-app = Interface()
+app = Interface(core)
+key = KeypadModule(app)
 app.mainloop()
