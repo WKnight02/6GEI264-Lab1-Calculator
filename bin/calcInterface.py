@@ -12,8 +12,9 @@ class Interface(tk.Tk):
 		this.create_widgets()
 	
 	def create_widgets(this):
-		
+	
 		p = PanedWindow(this, orient=VERTICAL)
+		
 		#Cree la zone de calcul
 		canvas = Canvas(p, width=300, height=200, background='white')
 		
@@ -41,25 +42,6 @@ class Interface(tk.Tk):
 		p.add(GroupButtonClear)
 		p.add(GroupButtonCalcul)
 		p.pack()
-		#this.button1 = tk.Button(this, text="1", command=this.say_hi, width=10, height=10)
-		#this.button2 = tk.Button(this, text="2", command=this.destroy , width=10, height=10)
-		#this.button3 = tk.Button(this, text="3",  width=10, height=10)
-		#this.button4 = tk.Button(this, text="4",  width=10, height=10)
-		#this.button5 = tk.Button(this, text="5",  width=10, height=10)
-		#this.button6 = tk.Button(this, text="6",  width=10, height=10)
-		#this.button1.pack()
-		#this.button2.pack()
-		#this.button3.pack()
-		#this.button4.pack()
-		#this.button5.pack()
-		#this.button6.pack()
 	
 	def say_hi(self):
 		print("hi there, everyone!")
-	
-
-
-		
-
-		
-	
