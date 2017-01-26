@@ -4,7 +4,9 @@ The calculator's interface
 from tkinter import *
 
 class Interface(Tk):
-
+	
+	ACTIONS = ["escape", "return", "backspace"]
+	
 	def __init__(this, core=None):
 		super().__init__()
 		print("Interface")
@@ -55,12 +57,18 @@ class Interface(Tk):
 	# Triggered when a key is pressed
 	def keyPressed(this, event):
 		sym = event.keysym.lower()
-		if sym == "return":
+		if not this.action(sym):
+			this.sendInput(event.char)
+	
+	def action(this, action):
+		if action in this.ACTIONS:
+			return False
+		elif sym == "return":
 			this.evaluate()
 		elif sym == "escape":
 			this.destroy()
-		else:
-			this.sendInput(event.char)
+		
+		return True
 	
 	# Send the input to the Core
 	def sendInput(this, char):
