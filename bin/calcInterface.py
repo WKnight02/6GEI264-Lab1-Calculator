@@ -19,28 +19,28 @@ class Interface(tk.Tk):
 		p = PanedWindow(this, orient=VERTICAL)
 
 		#Cree la zone de calcul
-		canvas = Canvas(p, width=300, height=200, background='white')
-
+		canvas = Canvas(p, height=300, background='white')
 		#
 		#Create the button clear and clear all
 		#
 		GroupButtonClear = Frame(this, borderwidth=2, relief=GROOVE)
 		Button(GroupButtonClear, text="Effacer").pack(side=LEFT, expand=Y, fill=BOTH)
-		Button(GroupButtonClear, text="Tous effacer").pack(side=RIGHT, expand=Y, fill=BOTH)
-
+		Button(GroupButtonClear, text="Tout effacer").pack(side=RIGHT, expand=Y, fill=BOTH)
 		#
 		#Create the button 1234567890.
 		#
 		GroupButtonCalcul = Frame(this, borderwidth=2, relief=GROOVE)
-		keys = "789456123 0."
+		#GroupButtonCalcul.pack(expand=Y, fill=BOTH)
+		keys = "789 ()456 +-123 */ 0.  ="
 		for ligne in range(4):
-			for colonne in range(3):
-				text = keys[colonne + 3 * ligne]
+			for colonne in range(6):
+				text = keys[colonne + 6 * ligne]
 				if text == " ": continue
-				Button(GroupButtonCalcul, text='%s' % (text), borderwidth=1).grid(row=ligne, column=colonne)
+				print(text)
+				Button(GroupButtonCalcul, text='%s' % (text), borderwidth=1, command=lambda: this.sendInput(str(text))).grid(row=ligne, column=colonne)
 
 		#affichage
-		p.pack(side=TOP, expand=Y, fill=BOTH, pady=2, padx=2)
+		p.pack(side=TOP, expand=Y, fill=BOTH, pady=5, padx=5)
 		p.add(canvas)
 		p.add(GroupButtonClear)
 		p.add(GroupButtonCalcul)
@@ -55,11 +55,11 @@ class Interface(tk.Tk):
 			this.destroy()
 		else:
 			this.sendInput(event.char)
-			print(this.core.input)
 	
 	# Send the input to the Core
 	def sendInput(this, char):
 		this.core.press(char)
+		print(this.core.input)
 	
 	# Evaluate the current expression
 	def evaluate(this):
