@@ -1,10 +1,9 @@
 """
 The calculator's interface
 """
-import tkinter as tk
 from tkinter import *
 
-class Interface(tk.Tk):
+class Interface(Tk):
 
 	def __init__(this, core=None):
 		super().__init__()
@@ -36,8 +35,11 @@ class Interface(tk.Tk):
 			for colonne in range(6):
 				text = keys[colonne + 6 * ligne]
 				if text == " ": continue
-				print(text)
-				Button(GroupButtonCalcul, text='%s' % (text), borderwidth=1, command=lambda: this.sendInput(str(text))).grid(row=ligne, column=colonne)
+				
+				# LOL
+				command = (lambda x: (lambda: this.sendInput(x)))(text)
+				
+				Button(GroupButtonCalcul, text='%s' % (text), borderwidth=1, command=command).grid(row=ligne, column=colonne)
 
 		#affichage
 		p.pack(side=TOP, expand=Y, fill=BOTH, pady=5, padx=5)
