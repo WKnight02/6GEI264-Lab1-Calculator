@@ -11,7 +11,7 @@ class Interface(tk.Tk):
 		print("Interface")
 
 		this.core = core
-		this.root.bind("<Key>", this.keyPressed)
+		this.bind("<Key>", this.keyPressed)
 		this.create_widgets()
 
 	def create_widgets(this):
@@ -48,13 +48,20 @@ class Interface(tk.Tk):
 
 	# Triggered when a key is pressed
 	def keyPressed(this, event):
-		this.sendInput(event.char)
-		print(this.core.input)
+		sym = event.keysym.lower()
+		if sym == "return":
+			this.evaluate()
+		elif sym == "escape":
+			this.destroy()
+		else:
+			this.sendInput(event.char)
+			print(this.core.input)
 	
 	# Send the input to the Core
-	def sendInput(this, char)
+	def sendInput(this, char):
 		this.core.press(char)
 	
 	# Evaluate the current expression
 	def evaluate(this):
 		result = this.core.evalInput()
+		print(result)
