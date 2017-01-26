@@ -11,6 +11,7 @@ class Interface(tk.Tk):
 		print("Interface")
 
 		this.core = core
+		this.root.bind("<Key>", this.keyPressed)
 		this.create_widgets()
 
 	def create_widgets(this):
@@ -46,10 +47,14 @@ class Interface(tk.Tk):
 		p.pack()
 
 	# Triggered when a key is pressed
-	# key = (character, name of the char, keycode)
-	def keyPressed(this, key):
-		this.core.press(key[0])
-		print(key)
-
-	def say_hi(self):
-		print("hi there, everyone!")
+	def keyPressed(this, event):
+		this.sendInput(event.char)
+		print(this.core.input)
+	
+	# Send the input to the Core
+	def sendInput(this, char)
+		this.core.press(char)
+	
+	# Evaluate the current expression
+	def evaluate(this):
+		result = this.core.evalInput()
