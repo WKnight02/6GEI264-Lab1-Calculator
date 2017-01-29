@@ -12,7 +12,9 @@ class Core:
 	# Object's initialization
 	def __init__(this):
 		print("Core")
+		this.reset()
 
+	def reset(this):
 		this.input = ""
 		this.history = list("" for i in range(this.HISTORY_LEN))
 
@@ -44,10 +46,18 @@ class Core:
 	# Evaluate some expression
 	def evalExpression(this, expr):
 
+		# If nothing is entered, do nothing
+		if expr.strip() == "": return ""
+
 		# Evaluating the expr
-		try: result = round(eval(expr), this.FLOAT_PRECISION)
-		except: return None
+		try:
+			result = round(eval(expr), this.FLOAT_PRECISION)
+		except:
+			result = None
 
 		# End of story
-		this.addToHistory("%s = %s" % (expr, result))
+		if result is not None:
+			this.addToHistory("%s = %s" % (expr, result))
+		else:
+			this.addToHistory("%s > SYNTAX ERROR" % expr)
 		return result

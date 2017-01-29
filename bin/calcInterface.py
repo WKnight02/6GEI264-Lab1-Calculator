@@ -6,10 +6,9 @@ import tkinter.font as font
 
 class Interface(Tk):
 
-	ACTIONS = ["escape", "return", "backspace"]
 	DEFAULTS = {
 		"height": 450,
-		"width": 320,
+		"width": 350,
 	}
 
 	def __init__(this, core=None, **kargs):
@@ -19,6 +18,13 @@ class Interface(Tk):
 		this.core = core
 
 		this.bind("<Key>", this.keyPressed)
+
+		this.Actions = {
+			"escape": this.destroy,
+			"return": this.evaluate,
+			"backspace": lambda: this.refreshInput(this.core.clear),
+			"delete": lambda: this.refreshInput(this.core.clearAll),
+		}
 
 		# Sets the size of the interface
 		this.height = kargs.get("height", this.DEFAULTS["height"])
@@ -70,6 +76,9 @@ class Interface(Tk):
 
 		# Actual clear buttons
 		Button(clearButtons, font=this.ButtonFont, text="Effacer",command=lambda: this.refreshInput(this.core.clear)).pack(side=LEFT, expand=Y, fill=BOTH)
+
+		Button(clearButtons, font=this.ButtonFont, text="Reset",command=lambda: this.refreshInput(this.core.reset)).pack(side=RIGHT, expand=Y, fill=BOTH)
+
 		Button(clearButtons, font=this.ButtonFont, text="Tout effacer",command=lambda: this.refreshInput(this.core.clearAll)).pack(side=RIGHT, expand=Y, fill=BOTH)
 
 		# Create the keyboard
@@ -118,12 +127,9 @@ class Interface(Tk):
 
 	# Try to trigger an action
 	def action(this, action):
-		if not action in this.ACTIONS:
+		if action not in this.Actions.keys():
 			return False
-		elif action == "return":
-			this.evaluate()
-		elif action == "escape":
-			this.destroy()
+		else: this.Actions[action]()
 
 		return True
 
@@ -132,12 +138,19 @@ class Interface(Tk):
 		this.core.press(char)
 		this.refreshInput()
 
+	# Write some text in the input field
+	def setScreenInput(this, txt):
+		this.Input.delete("1.0", END)
+		this.Input.insert(END, txt)
+
 	# Evaluate the current expression
 	def evaluate(this):
+		this.setScreenInput("PROCESSING...")
 		result = this.core.evalInput()
 
 		# Re-use the result for next input
-		this.core.input = str(result)
+		if result is not None:
+			this.core.input = str(result)
 
 		this.refreshInput()
 
@@ -154,5 +167,4 @@ class Interface(Tk):
 		# Generate history
 		history = "\n".join(line for line in this.core.history)
 
-		this.Input.delete("1.0", END)
-		this.Input.insert(END, "%s\n%s" % (history, this.core.input))
+		this.setScreenInput("%s\n%s" % (history, this.core.input))
