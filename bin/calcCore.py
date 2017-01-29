@@ -5,7 +5,7 @@ The calculator's core functions
 
 class Core:
 
-	HISTORY_LEN = 10
+	HISTORY_LEN = 6
 	FLOAT_PRECISION = 2
 	CHARACTERS = "0.123456789+-*/()"
 
@@ -14,7 +14,7 @@ class Core:
 		print("Core")
 
 		this.input = ""
-		this.history = []
+		this.history = list("" for i in range(this.HISTORY_LEN))
 
 	# Add character to input
 	def press(this, char):

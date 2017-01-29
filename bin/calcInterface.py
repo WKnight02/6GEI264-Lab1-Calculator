@@ -2,85 +2,157 @@
 The calculator's interface
 """
 from tkinter import *
+import tkinter.font as font
 
 class Interface(Tk):
-	
+
 	ACTIONS = ["escape", "return", "backspace"]
-	
-	def __init__(this, core=None):
+	DEFAULTS = {
+		"height": 450,
+		"width": 320,
+	}
+
+	def __init__(this, core=None, **kargs):
 		super().__init__()
 		print("Interface")
 
 		this.core = core
+
 		this.bind("<Key>", this.keyPressed)
+
+		# Sets the size of the interface
+		this.height = kargs.get("height", this.DEFAULTS["height"])
+		this.width = kargs.get("width", this.DEFAULTS["width"])
+		this.resizable(width=False, height=False)
+		this.geometry("%dx%d" % (this.width, this.height))
+
+		# The app's fonts
+		this.ButtonFont = font.Font(family="Arial", size=12, weight="bold")
+		this.CommandFont = font.Font(family="Consolas", size=16)
+
 		this.create_widgets()
 
 	def create_widgets(this):
 
+		# This is the main vertical layout (screen / buttons)
 		p = PanedWindow(this, orient=VERTICAL)
 
-		#Cree la zone de calcul
+		# Cree la zone de calcul
 		screen = Frame(p, background='white')
-		this.Historique =Label(screen,text="",background='white')
-		this.Historique.pack(side=TOP, expand=Y, fill=BOTH)
-		this.Input = Label(screen,text="",background='white')
-		this.Input.pack(side=BOTTOM, expand=Y, fill=BOTH)
-		#
-		#Create the button clear and clear all
-		#
-		GroupButtonClear = Frame(this, borderwidth=2, relief=GROOVE)
-		Button(GroupButtonClear, text="Effacer",command=lambda: this.refreshDisplay(this.core.clear)).pack(side=LEFT, expand=Y, fill=BOTH)
-		Button(GroupButtonClear, text="Tout effacer",command=lambda: this.refreshDisplay(this.core.clearAll)).pack(side=RIGHT, expand=Y, fill=BOTH)
-		#
-		#Create the button 1234567890.
-		#
-		GroupButtonCalcul = Frame(this, borderwidth=2, relief=GROOVE)
-		#GroupButtonCalcul.pack(expand=Y, fill=BOTH)
-		keys = "789 ()456 +-123 */ 0.  ="
-		for ligne in range(4):
-			for colonne in range(6):
-				text = keys[colonne + 6 * ligne]
-				if text == " ": continue
-				
-				# LOL
-				command = (lambda x: (lambda: this.sendInput(x)))(text)
-				
-				Button(GroupButtonCalcul, text='%s' % (text), borderwidth=1, command=command).grid(row=ligne, column=colonne)
 
-		#affichage
-		p.pack(side=TOP, expand=Y, fill=BOTH, pady=5, padx=5)
+		# Textarea ?
+		this.Input = text = Text(screen, font=this.CommandFont, height=this.core.HISTORY_LEN + 1)
+		text.configure(yscrollcommand=lambda *args: None)
+
+		"""
+		scroll = Scrollbar(screen)
+		text.configure(yscrollcommand=scroll.set)
+		"""
+
+		text.bind("<<Modified>>", lambda *args: text.see(END))
+
+		# Packing
+		text.pack(side=LEFT)
+
+		"""
+		scroll.pack(side=RIGHT, fill=Y)
+
+		# The differents parts of the screen
+		this.History = Label(screen,text="",background="white")
+		this.Input = Label(screen,text="",background="white")
+
+		this.History.pack(side=TOP, expand=Y, fill=BOTH)
+		this.Input.pack(side=BOTTOM, expand=Y, fill=BOTH)
+		"""
+
+		# Create the button clear and clear all
+		clearButtons = Frame(this, borderwidth=2, relief=GROOVE)
+
+		# Actual clear buttons
+		Button(clearButtons, font=this.ButtonFont, text="Effacer",command=lambda: this.refreshInput(this.core.clear)).pack(side=LEFT, expand=Y, fill=BOTH)
+		Button(clearButtons, font=this.ButtonFont, text="Tout effacer",command=lambda: this.refreshInput(this.core.clearAll)).pack(side=RIGHT, expand=Y, fill=BOTH)
+
+		# Create the keyboard
+		keyboard = [
+			"789 ()",
+			"456 +-",
+			"123 */",
+			" 0.   "
+		]
+
+		# Layout
+		height, width = len(keyboard), len(keyboard[0])
+		keyboardButtons = Frame(this, borderwidth=2, relief=GROOVE)
+
+		# Grid config for responsive design
+		for row in range(height):
+			Grid.rowconfigure(keyboardButtons, row, weight=1)
+		for column in range(width):
+			Grid.columnconfigure(keyboardButtons, column, weight=1)
+
+		# Creates the buttons
+		for row in range(height):
+			for column in range(width):
+				label = keyboard[row][column]
+				if label == " ": continue
+
+				# LOL
+				command = (lambda x: (lambda: this.sendInput(x)))(label)
+
+				Button(keyboardButtons, font=this.ButtonFont, text=label, borderwidth=1, command=command).grid(row=row, column=column, sticky=N+S+E+W)
+
+		# '=' button
+		Button(keyboardButtons, font=this.ButtonFont, text="=", borderwidth=1, command=this.evaluate).grid(row=row, column=column, sticky=N+S+E+W)
+
+		# Display
 		p.add(screen)
-		p.add(GroupButtonClear)
-		p.add(GroupButtonCalcul)
-		p.pack()
+		p.add(clearButtons)
+		p.add(keyboardButtons)
+		p.pack(side=TOP, expand=Y, fill=BOTH, pady=5, padx=5)
 
 	# Triggered when a key is pressed
 	def keyPressed(this, event):
 		sym = event.keysym.lower()
 		if not this.action(sym):
 			this.sendInput(event.char)
-	
+
+	# Try to trigger an action
 	def action(this, action):
-		if action in this.ACTIONS:
+		if not action in this.ACTIONS:
 			return False
-		elif sym == "return":
+		elif action == "return":
 			this.evaluate()
-		elif sym == "escape":
+		elif action == "escape":
 			this.destroy()
-		
+
 		return True
-	
+
 	# Send the input to the Core
 	def sendInput(this, char):
 		this.core.press(char)
-		print(this.core.input)
-		this.Input.config(text=this.core.input) 
-	
+		this.refreshInput()
+
 	# Evaluate the current expression
 	def evaluate(this):
 		result = this.core.evalInput()
-		print(result)
-	
-	def refreshDisplay(this, func, *args):
+
+		# Re-use the result for next input
+		this.core.input = str(result)
+
+		this.refreshInput()
+
+		"""
+		# Change the actual text
+		this.Input.config(text=result)
+		this.History.config(text=newHistory)
+		"""
+
+	# Takes a function and optional parameters, then refresh the display
+	def refreshInput(this, func=(lambda *args: None), *args):
 		func(*args)
-		this.Input.config(text=this.core.input) 
+
+		# Generate history
+		history = "\n".join(line for line in this.core.history)
+
+		this.Input.delete("1.0", END)
+		this.Input.insert(END, "%s\n%s" % (history, this.core.input))
