@@ -3,6 +3,8 @@
 The calculator's core functions
 """
 
+from .calcZeroDivision import *
+
 class Core:
 
 	HISTORY_LEN = 6
@@ -55,6 +57,7 @@ class Core:
 			result = round(eval(expr), this.FLOAT_PRECISION)
 		except ZeroDivisionError:
 			error = "ZERO DIVISION"
+			ZeroDivision.Exception(33)
 		except: # Lets say the syntax is alwways at fault
 			error = "SYNTAX ERROR"
 

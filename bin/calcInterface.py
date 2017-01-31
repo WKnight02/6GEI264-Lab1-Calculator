@@ -150,12 +150,6 @@ class Interface(Tk):
 
 		this.refreshInput()
 
-		"""
-		# Change the actual text
-		this.Input.config(text=result)
-		this.History.config(text=newHistory)
-		"""
-
 	# Takes a function and optional parameters, then refresh the display
 	def refreshInput(this, func=(lambda *args: None), *args):
 		func(*args)
