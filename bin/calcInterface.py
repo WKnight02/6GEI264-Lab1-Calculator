@@ -37,6 +37,7 @@ class Interface(Tk):
 		this.CommandFont = font.Font(family="Consolas", size=16)
 
 		this.create_widgets()
+		this.refreshInput()
 
 	def create_widgets(this):
 
@@ -48,21 +49,15 @@ class Interface(Tk):
 
 		# Textarea ?
 		this.Input = text = Text(screen, font=this.CommandFont, height=this.core.HISTORY_LEN + 1)
-		text.configure(yscrollcommand=lambda *args: None)
 
-		"""
-		scroll = Scrollbar(screen)
+		scroll = Scrollbar(screen, orient="vertical", command=text.yview)
 		text.configure(yscrollcommand=scroll.set)
-		"""
-
-		text.bind("<<Modified>>", lambda *args: text.see(END))
 
 		# Packing
-		text.pack(side=LEFT)
+		text.pack(side=RIGHT, fill=Y)
+		scroll.pack(side=LEFT, fill=Y)
 
 		"""
-		scroll.pack(side=RIGHT, fill=Y)
-
 		# The differents parts of the screen
 		this.History = Label(screen,text="",background="white")
 		this.Input = Label(screen,text="",background="white")
@@ -142,6 +137,7 @@ class Interface(Tk):
 	def setScreenInput(this, txt):
 		this.Input.delete("1.0", END)
 		this.Input.insert(END, txt)
+		this.Input.see(END)
 
 	# Evaluate the current expression
 	def evaluate(this):
@@ -167,4 +163,4 @@ class Interface(Tk):
 		# Generate history
 		history = "\n".join(line for line in this.core.history)
 
-		this.setScreenInput("%s\n%s" % (history, this.core.input))
+		this.setScreenInput("%s\n:> %s" % (history, this.core.input))
