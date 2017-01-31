@@ -50,14 +50,20 @@ class Core:
 		if expr.strip() == "": return ""
 
 		# Evaluating the expr
+		result = None
 		try:
 			result = round(eval(expr), this.FLOAT_PRECISION)
-		except:
-			result = None
+		except SyntaxError:
+			error = "SYNTAX ERROR"
+		except ZeroDivisionError:
+			error = "ZERO DIVISION"
+		except: # Can't do much more here
+			error = "WEIRD ERROR"
+
 
 		# End of story
 		if result is not None:
 			this.addToHistory("%s = %s" % (expr, result))
 		else:
-			this.addToHistory("%s > SYNTAX ERROR" % expr)
+			this.addToHistory("%s > %s" % (expr, error))
 		return result
