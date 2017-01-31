@@ -53,12 +53,10 @@ class Core:
 		result = None
 		try:
 			result = round(eval(expr), this.FLOAT_PRECISION)
-		except SyntaxError:
-			error = "SYNTAX ERROR"
 		except ZeroDivisionError:
 			error = "ZERO DIVISION"
-		except: # Can't do much more here
-			error = "WEIRD ERROR"
+		except: # Lets say the syntax is alwways at fault
+			error = "SYNTAX ERROR"
 
 
 		# End of story
