@@ -6,6 +6,9 @@ The calculator's core functions
 from .calcZeroDivision import *
 
 class Core:
+	"""Core object
+	Where all the magic happens
+	"""
 
 	HISTORY_LEN = 6
 	FLOAT_PRECISION = 2

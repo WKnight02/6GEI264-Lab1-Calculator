@@ -5,6 +5,8 @@ from tkinter import *
 import tkinter.font as font
 
 class Interface(Tk):
+	"""Calculator's interface
+	"""
 
 	DEFAULTS = {
 		"height": 450,
