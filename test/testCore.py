@@ -124,5 +124,5 @@ class TestCore(test.TestCase):
         core.reset()
 
         # Is everything cleaned ?
-        this.assertEqual(core.history, ['' for _ in range(core.HISTORY_LEN)])
+        this.assertEqual(len([0 for i in core.history if len(i) > 0]), 0)
         this.assertEqual(core.input, "")
