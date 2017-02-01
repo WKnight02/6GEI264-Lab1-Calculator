@@ -13,7 +13,6 @@ class Core:
 
 	# Object's initialization
 	def __init__(this):
-		print("Core")
 		this.reset()
 
 	def reset(this):

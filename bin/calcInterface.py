@@ -13,7 +13,6 @@ class Interface(Tk):
 
 	def __init__(this, core=None, **kargs):
 		super().__init__()
-		print("Interface")
 
 		this.core = core
 
