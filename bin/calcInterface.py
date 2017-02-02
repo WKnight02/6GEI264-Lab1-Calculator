@@ -6,6 +6,8 @@ import tkinter.font as font
 
 class Interface(Tk):
 	"""Calculator's interface
+	On its own, it does only manage buttons and displays.
+	The actual logic is in a Core that you must provide while instancing the object.
 	"""
 
 	DEFAULTS = {
@@ -40,6 +42,7 @@ class Interface(Tk):
 		this.create_widgets()
 		this.refreshInput()
 
+	# Internal function setting up the components/widgets
 	def create_widgets(this):
 
 		# This is the main vertical layout (screen / buttons)
@@ -117,12 +120,17 @@ class Interface(Tk):
 
 	# Triggered when a key is pressed
 	def keyPressed(this, event):
+		"""Handles key pressed calls
+		If it can perform an action (eval, quit, etc...) it will not send it to the core, otherwise it will.
+		"""
 		sym = event.keysym.lower()
 		if not this.action(sym):
 			this.sendInput(event.char)
 
 	# Try to trigger an action
 	def action(this, action):
+		"""Tries to execute an action that the core does not directly manage.
+		"""
 		if action not in this.Actions.keys():
 			return False
 		else: this.Actions[action]()
@@ -131,17 +139,25 @@ class Interface(Tk):
 
 	# Send the input to the Core
 	def sendInput(this, char):
+		"""Sends a character to the core to be processed.
+		(such as an inputed char)
+		"""
 		this.core.press(char)
 		this.refreshInput()
 
 	# Write some text in the input field
 	def setScreenInput(this, txt):
+		"""Sets the screen to some text, clearing what was there.
+		"""
 		this.Input.delete("1.0", END)
 		this.Input.insert(END, txt)
 		this.Input.see(END)
 
 	# Evaluate the current expression
 	def evaluate(this):
+		"""Asks the core to evaluate the current input.
+		Then grab the core's return value and tries to display it.
+		"""
 		this.setScreenInput("PROCESSING...")
 		result = this.core.evalInput()
 
@@ -153,6 +169,8 @@ class Interface(Tk):
 
 	# Takes a function and optional parameters, then refresh the display
 	def refreshInput(this, func=(lambda *args: None), *args):
+		"""Process some stuff with "func" before refreshing the screen, from the core's input and history
+		"""
 		func(*args)
 
 		# Generate history
