@@ -16,6 +16,8 @@ class Interface(Tk):
 	}
 
 	def __init__(this, core=None, **kargs):
+		"""You must provide a Core to actually process the inputs in a fashioned way. (see: bin.calcCore)
+		"""
 		super().__init__()
 
 		this.core = core
@@ -109,6 +111,9 @@ class Interface(Tk):
 
 				Button(keyboardButtons, font=this.ButtonFont, text=label, borderwidth=1, command=command).grid(row=row, column=column, sticky=N+S+E+W)
 
+		# IMP button
+		Button(keyboardButtons, font=this.ButtonFont, text="IMP", borderwidth=1, command=this.printHistory).grid(row=row, column=column-1, sticky=N+S+E+W)
+
 		# '=' button
 		Button(keyboardButtons, font=this.ButtonFont, text="=", borderwidth=1, command=this.evaluate).grid(row=row, column=column, sticky=N+S+E+W)
 
@@ -177,3 +182,9 @@ class Interface(Tk):
 		history = "\n".join(line for line in this.core.history)
 
 		this.setScreenInput("%s\n:> %s" % (history, this.core.input))
+
+	# Prints the history
+	def printHistory(this):
+		"""This function starts the process to print out with some printer the stored inputs.
+		"""
+		print("NOT IMPLEMENTED")

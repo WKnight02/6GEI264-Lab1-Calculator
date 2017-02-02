@@ -43,7 +43,9 @@
 <font color="#000000" face="helvetica, arial"><a name="Interface">class <strong>Interface</strong></a>(<a href="tkinter.html#Tk">tkinter.Tk</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
-<td colspan=2><tt>Calculator's&nbsp;interface<br>&nbsp;</tt></td></tr>
+<td colspan=2><tt>Calculator's&nbsp;interface<br>
+On&nbsp;its&nbsp;own,&nbsp;it&nbsp;does&nbsp;only&nbsp;manage&nbsp;buttons&nbsp;and&nbsp;displays.<br>
+The&nbsp;actual&nbsp;logic&nbsp;is&nbsp;in&nbsp;a&nbsp;Core&nbsp;that&nbsp;you&nbsp;must&nbsp;provide&nbsp;while&nbsp;instancing&nbsp;the&nbsp;object.<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%"><dl><dt>Method resolution order:</dt>
 <dd><a href="bin.calcInterface.html#Interface">Interface</a></dd>
@@ -54,25 +56,26 @@
 </dl>
 <hr>
 Methods defined here:<br>
-<dl><dt><a name="Interface-__init__"><strong>__init__</strong></a>(this, core=None, **kargs)</dt><dd><tt>Return&nbsp;a&nbsp;new&nbsp;Toplevel&nbsp;widget&nbsp;on&nbsp;screen&nbsp;SCREENNAME.&nbsp;A&nbsp;new&nbsp;Tcl&nbsp;interpreter&nbsp;will<br>
-be&nbsp;created.&nbsp;BASENAME&nbsp;will&nbsp;be&nbsp;used&nbsp;for&nbsp;the&nbsp;identification&nbsp;of&nbsp;the&nbsp;profile&nbsp;file&nbsp;(see<br>
-readprofile).<br>
-It&nbsp;is&nbsp;constructed&nbsp;from&nbsp;sys.argv[0]&nbsp;without&nbsp;extensions&nbsp;if&nbsp;None&nbsp;is&nbsp;given.&nbsp;CLASSNAME<br>
-is&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;widget&nbsp;class.</tt></dd></dl>
+<dl><dt><a name="Interface-__init__"><strong>__init__</strong></a>(this, core=None, **kargs)</dt><dd><tt>You&nbsp;must&nbsp;provide&nbsp;a&nbsp;Core&nbsp;to&nbsp;actually&nbsp;process&nbsp;the&nbsp;inputs&nbsp;in&nbsp;a&nbsp;fashioned&nbsp;way.&nbsp;(see:&nbsp;bin.calcCore)</tt></dd></dl>
 
-<dl><dt><a name="Interface-action"><strong>action</strong></a>(this, action)</dt><dd><tt>#&nbsp;Try&nbsp;to&nbsp;trigger&nbsp;an&nbsp;action</tt></dd></dl>
+<dl><dt><a name="Interface-action"><strong>action</strong></a>(this, action)</dt><dd><tt>Tries&nbsp;to&nbsp;execute&nbsp;an&nbsp;action&nbsp;that&nbsp;the&nbsp;core&nbsp;does&nbsp;not&nbsp;directly&nbsp;manage.</tt></dd></dl>
 
-<dl><dt><a name="Interface-create_widgets"><strong>create_widgets</strong></a>(this)</dt></dl>
+<dl><dt><a name="Interface-create_widgets"><strong>create_widgets</strong></a>(this)</dt><dd><tt>#&nbsp;Internal&nbsp;function&nbsp;setting&nbsp;up&nbsp;the&nbsp;components/widgets</tt></dd></dl>
 
-<dl><dt><a name="Interface-evaluate"><strong>evaluate</strong></a>(this)</dt><dd><tt>#&nbsp;Evaluate&nbsp;the&nbsp;current&nbsp;expression</tt></dd></dl>
+<dl><dt><a name="Interface-evaluate"><strong>evaluate</strong></a>(this)</dt><dd><tt>Asks&nbsp;the&nbsp;core&nbsp;to&nbsp;evaluate&nbsp;the&nbsp;current&nbsp;input.<br>
+Then&nbsp;grab&nbsp;the&nbsp;core's&nbsp;return&nbsp;value&nbsp;and&nbsp;tries&nbsp;to&nbsp;display&nbsp;it.</tt></dd></dl>
 
-<dl><dt><a name="Interface-keyPressed"><strong>keyPressed</strong></a>(this, event)</dt><dd><tt>#&nbsp;Triggered&nbsp;when&nbsp;a&nbsp;key&nbsp;is&nbsp;pressed</tt></dd></dl>
+<dl><dt><a name="Interface-keyPressed"><strong>keyPressed</strong></a>(this, event)</dt><dd><tt>Handles&nbsp;key&nbsp;pressed&nbsp;calls<br>
+If&nbsp;it&nbsp;can&nbsp;perform&nbsp;an&nbsp;action&nbsp;(eval,&nbsp;quit,&nbsp;etc...)&nbsp;it&nbsp;will&nbsp;not&nbsp;send&nbsp;it&nbsp;to&nbsp;the&nbsp;core,&nbsp;otherwise&nbsp;it&nbsp;will.</tt></dd></dl>
 
-<dl><dt><a name="Interface-refreshInput"><strong>refreshInput</strong></a>(this, func=&lt;function Interface.&lt;lambda&gt; at 0x000002C0045191E0&gt;, *args)</dt><dd><tt>#&nbsp;Takes&nbsp;a&nbsp;function&nbsp;and&nbsp;optional&nbsp;parameters,&nbsp;then&nbsp;refresh&nbsp;the&nbsp;display</tt></dd></dl>
+<dl><dt><a name="Interface-printHistory"><strong>printHistory</strong></a>(this)</dt><dd><tt>This&nbsp;function&nbsp;starts&nbsp;the&nbsp;process&nbsp;to&nbsp;print&nbsp;out&nbsp;with&nbsp;some&nbsp;printer&nbsp;the&nbsp;stored&nbsp;inputs.</tt></dd></dl>
 
-<dl><dt><a name="Interface-sendInput"><strong>sendInput</strong></a>(this, char)</dt><dd><tt>#&nbsp;Send&nbsp;the&nbsp;input&nbsp;to&nbsp;the&nbsp;Core</tt></dd></dl>
+<dl><dt><a name="Interface-refreshInput"><strong>refreshInput</strong></a>(this, func=&lt;function Interface.&lt;lambda&gt; at 0x00000245EFA4A268&gt;, *args)</dt><dd><tt>Process&nbsp;some&nbsp;stuff&nbsp;with&nbsp;"func"&nbsp;before&nbsp;refreshing&nbsp;the&nbsp;screen,&nbsp;from&nbsp;the&nbsp;core's&nbsp;input&nbsp;and&nbsp;history</tt></dd></dl>
 
-<dl><dt><a name="Interface-setScreenInput"><strong>setScreenInput</strong></a>(this, txt)</dt><dd><tt>#&nbsp;Write&nbsp;some&nbsp;text&nbsp;in&nbsp;the&nbsp;input&nbsp;field</tt></dd></dl>
+<dl><dt><a name="Interface-sendInput"><strong>sendInput</strong></a>(this, char)</dt><dd><tt>Sends&nbsp;a&nbsp;character&nbsp;to&nbsp;the&nbsp;core&nbsp;to&nbsp;be&nbsp;processed.<br>
+(such&nbsp;as&nbsp;an&nbsp;inputed&nbsp;char)</tt></dd></dl>
+
+<dl><dt><a name="Interface-setScreenInput"><strong>setScreenInput</strong></a>(this, txt)</dt><dd><tt>Sets&nbsp;the&nbsp;screen&nbsp;to&nbsp;some&nbsp;text,&nbsp;clearing&nbsp;what&nbsp;was&nbsp;there.</tt></dd></dl>
 
 <hr>
 Data and other attributes defined here:<br>

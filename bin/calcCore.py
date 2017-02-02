@@ -5,7 +5,7 @@ The calculator's core functions
 
 from .calcZeroDivision import *
 
-class Core:
+class Core(object):
 	"""Core object
 	Where all the magic happens.
 	"""
@@ -23,7 +23,7 @@ class Core:
 		"""Clears both the input and the history.
 		"""
 		this.input = ""
-		this.history = list("" for i in range(this.HISTORY_LEN))
+		this.history = ["" for i in range(this.HISTORY_LEN)]
 
 	# Add character to input
 	def press(this, char):
@@ -76,7 +76,7 @@ class Core:
 			result = round(eval(expr), this.FLOAT_PRECISION)
 		except ZeroDivisionError:
 			error = "ZERO DIVISION"
-			ZeroDivision.Exception(33)
+			ZeroDivision.Exception(10)
 		except: # Lets say the syntax is alwways at fault
 			error = "SYNTAX ERROR"
 
