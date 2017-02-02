@@ -11,7 +11,7 @@ include_files = [r"C:\Python3\DLLs\tcl86t.dll", \
                  r"C:\Python3\DLLs\tk86t.dll"] 
 buildOptions = dict(packages = [], excludes = [], include_files=include_files)
 
-base = 'Console'
+base = 'Win32GUI'
 
 executables = [
     Executable('Calculatrice.pyw', base=base)
