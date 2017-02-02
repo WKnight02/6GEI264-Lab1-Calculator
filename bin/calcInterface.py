@@ -63,15 +63,6 @@ class Interface(Tk):
 		text.pack(side=RIGHT, fill=Y)
 		scroll.pack(side=LEFT, fill=Y)
 
-		"""
-		# The differents parts of the screen
-		this.History = Label(screen,text="",background="white")
-		this.Input = Label(screen,text="",background="white")
-
-		this.History.pack(side=TOP, expand=Y, fill=BOTH)
-		this.Input.pack(side=BOTTOM, expand=Y, fill=BOTH)
-		"""
-
 		# Create the button clear and clear all
 		clearButtons = Frame(this, borderwidth=2, relief=GROOVE)
 
@@ -180,7 +171,6 @@ class Interface(Tk):
 
 		# Generate history
 		history = "\n".join(line for line in this.core.history)
-
 		this.setScreenInput("%s\n:> %s" % (history, this.core.input))
 
 	# Prints the history
