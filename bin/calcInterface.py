@@ -157,9 +157,9 @@ class Interface(Tk):
 		this.setScreenInput("PROCESSING...")
 		result = this.core.evalInput()
 
-		# Re-use the result for next input
-		if result is not None:
-			this.core.input = str(result)
+		# Re-use the result for next input (0 is annoying)
+		if result != 0 and result is not None:
+				this.core.input = str(result)
 
 		this.refreshInput()
 
