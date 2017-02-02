@@ -3,7 +3,7 @@
 The calculator's core functions
 """
 
-from .calcZeroDivision import *
+#from .calcZeroDivision import *
 
 class Core(object):
 	"""Core object
@@ -76,7 +76,7 @@ class Core(object):
 			result = round(eval(expr), this.FLOAT_PRECISION)
 		except ZeroDivisionError:
 			error = "ZERO DIVISION"
-			ZeroDivision.Exception(10)
+			#ZeroDivision.Exception(10)
 		except: # Lets say the syntax is alwways at fault
 			error = "SYNTAX ERROR"
 
