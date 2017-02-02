@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-
-from bin import *
+from modules import *
 
 core = Core()
 app = Interface(core)

@@ -1,4 +1,4 @@
 @echo off
-python -m pydoc -w bin.calcCore
-python -m pydoc -w bin.calcInterface
-move *.html doc > nul
+python -m pydoc -w modules.calcCore
+python -m pydoc -w modules.calcInterface
+move *.html documentation > nul
