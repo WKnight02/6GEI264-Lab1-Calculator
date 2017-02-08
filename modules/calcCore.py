@@ -44,10 +44,11 @@ class Core(object):
 			new = this.input + char
 			regInvalid = re.compile(this.FORBIDDEN)
 			if re.search(regInvalid, new) is None:
-				this.input = new
 
-				if this.readyForEval() is not None:
+				if this.readyForEval(new) is not None:
 					this.evalInput()
+
+				this.input += char
 
 	# Clears character by character
 	def clear(this):
@@ -71,14 +72,14 @@ class Core(object):
 		this.history = this.history[-this.HISTORY_LEN:]
 
 	# WIP
-	def readyForEval(this):
+	def readyForEval(this, expr):
 		"""Checks if the input has to be evaluated
 		"""
 		nb = r"[+-]?[\d.]+"
-		regLow = re.compile(r"(%s)[+*\/\-](%s)[+\-]$")
-		regHigh = re.compile(r"(%s)[*\/](%s)[+*\/\-]$")
+		regLow = re.compile(r"(%s)[+*\/\-](%s)[+\-]$" % (nb, nb))
+		#regHigh = re.compile(r"(%s)[*\/](%s)[+*\/\-]$" % (nb, nb))
 
-		return regLow.search(this.input) or regHigh.search(this.input)
+		return regLow.search(expr) #or regHigh.search(expr)
 
 	# Evaluate the input:
 	def evalInput(this):
@@ -86,6 +87,9 @@ class Core(object):
 		"""
 		result = this.evalExpression(this.input)
 		this.clearAll()
+
+		if result is not None:
+			this.input = str(result)
 		return result
 
 	# Evaluate some expression

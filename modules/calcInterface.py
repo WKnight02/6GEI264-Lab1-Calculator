@@ -159,9 +159,11 @@ class Interface(Tk):
 		this.setScreenInput("PROCESSING...")
 		result = this.core.evalInput()
 
+		"""
 		# Re-use the result for next input (0 is annoying)
 		if result != 0 and result is not None:
 				this.core.input = str(result)
+		"""
 
 		this.refreshInput()
 
@@ -191,4 +193,3 @@ class Interface(Tk):
 			text = open(filename, 'w')
 			text.write("\n".join(line for line in this.core.history if line != ""))
 			text.close()
-			
