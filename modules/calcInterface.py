@@ -148,6 +148,7 @@ class Interface(Tk):
 		this.Input.delete("1.0", END)
 		this.Input.insert(END, txt)
 		this.Input.see(END)
+		this.update()
 
 	# Evaluate the current expression
 	def evaluate(this):
