@@ -110,6 +110,10 @@ class Core(object):
 		except: # Lets say the syntax is alwways at fault
 			error = "SYNTAX ERROR"
 
+		# Removes decimal when not necessary
+		intres = int(result)
+		if intres == result:
+			result = intres
 
 		# End of story
 		if result is not None:
