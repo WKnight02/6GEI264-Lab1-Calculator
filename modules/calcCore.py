@@ -42,13 +42,20 @@ class Core(object):
 		"""
 		if char in this.CHARACTERS:
 			new = this.input + char
+
+			# If there is an invalid format, do not accept it
 			regInvalid = re.compile(this.FORBIDDEN)
 			if re.search(regInvalid, new) is None:
 
+				# If the expression is ready for evaluation, do it
 				if this.readyForEval(new) is not None:
 					this.evalInput()
+					if this.input != "": this.input += char
 
-				this.input += char
+				# If the expression is not ready, keep writing
+				else:
+					this.input = new
+
 
 	# Clears character by character
 	def clear(this):
@@ -88,7 +95,7 @@ class Core(object):
 		result = this.evalExpression(this.input)
 		this.clearAll()
 
-		if result is not None:
+		if result is not None and result != 0:
 			this.input = str(result)
 		return result
 
