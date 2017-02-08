@@ -2,6 +2,7 @@
 The calculator's interface
 """
 from tkinter import *
+from tkinter import filedialog
 import tkinter.font as font
 
 class Interface(Tk):
@@ -178,4 +179,16 @@ class Interface(Tk):
 	def printHistory(this):
 		"""This function starts the process to print out with some printer the stored inputs.
 		"""
-		print("NOT IMPLEMENTED")
+		options = {}
+		options['defaultextension'] = '.txt'
+		options['filetypes'] = [('all files', '.*'), ('text files', '.txt')]
+		options['initialdir'] = '~/'
+		options['initialfile'] = 'Impression.txt'
+		options['parent'] = this
+		options['title'] = 'Impression'
+		filename = filedialog.asksaveasfilename(**options)
+		if filename:
+			text = open(filename, 'w')
+			text.write("\n".join(line for line in this.core.history if line != ""))
+			text.close()
+			
