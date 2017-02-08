@@ -4,6 +4,7 @@ The calculator's core functions
 """
 
 #from .calcZeroDivision import *
+import re
 
 class Core(object):
 	"""Core object
@@ -12,7 +13,16 @@ class Core(object):
 
 	HISTORY_LEN = 6
 	FLOAT_PRECISION = 2
-	CHARACTERS = "0.123456789+-*/()"
+	OPERATORS = "+-*/"
+	CHARACTERS = "0.123456789()" + OPERATORS
+
+	FORBIDDEN = "|".join([
+		r"\+\+",
+		r"\-\-",
+		r"\*\*",
+		r"//",
+		r"[+*\/\-]{3,}",
+	])
 
 	# Object's initialization
 	def __init__(this):
@@ -31,7 +41,13 @@ class Core(object):
 		If it is not a valid char, it will simply do nothing.
 		"""
 		if char in this.CHARACTERS:
-			this.input += char
+			new = this.input + char
+			regInvalid = re.compile(this.FORBIDDEN)
+			if re.search(regInvalid, new) is None:
+				this.input = new
+
+				if this.readyForEval() is not None:
+					this.evalInput()
 
 	# Clears character by character
 	def clear(this):
@@ -53,6 +69,16 @@ class Core(object):
 		"""
 		this.history.append(expr)
 		this.history = this.history[-this.HISTORY_LEN:]
+
+	# WIP
+	def readyForEval(this):
+		"""Checks if the input has to be evaluated
+		"""
+		nb = r"[+-]?[\d.]+"
+		regLow = re.compile(r"(%s)[+*\/\-](%s)[+\-]$")
+		regHigh = re.compile(r"(%s)[*\/](%s)[+*\/\-]$")
+
+		return regLow.search(this.input) or regHigh.search(this.input)
 
 	# Evaluate the input:
 	def evalInput(this):
