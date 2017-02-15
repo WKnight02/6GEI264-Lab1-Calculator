@@ -38,14 +38,15 @@ class TestCore(test.TestCase):
         # List of inputs and things to see
         expressions = {
             "1+": "1+",
+            "2*": "2*",
             "1+1": "1+1",
             "1+1+": "2+",
+            "2*2": "2*2",
+            "2*2*": "4*",
             "1+2*": "1+2*",
             "1+2*2": "1+2*2",
             "1+2*2+": "5+",
-            "2*": "2*",
-            "2*2": "2*2",
-            "2*2*": "4*",
+            "1+2*2*": "5*",
         }
 
         for expression, expected in expressions.items():
