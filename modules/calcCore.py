@@ -117,14 +117,19 @@ class Core(object):
 		except: # Lets say the syntax is alwways at fault
 			error = "SYNTAX ERROR"
 
-		# Removes decimal when not necessary
-		intres = int(result)
-		if intres == result:
-			result = intres
 
-		# End of story
+		# If we got a result
 		if result is not None:
+
+			# Removes decimal when not necessary
+			intres = int(result)
+			if intres == result:
+				result = intres
+
 			this.addToHistory("%s = %s" % (expr, result))
+
+		# An error has occured
 		else:
 			this.addToHistory("%s > %s" % (expr, error))
+
 		return result
