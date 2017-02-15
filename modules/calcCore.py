@@ -41,6 +41,13 @@ class Core(object):
 		If it is not a valid char, it will simply do nothing.
 		"""
 		if char in this.CHARACTERS:
+			this.input += char
+
+	def pressAutoEval(this, char):
+		"""See 'Core.press'.
+		Also tries to auto evaluate the expression on the go
+		"""
+		if char in this.CHARACTERS:
 			new = this.input + char
 
 			# If there is an invalid format, do not accept it
@@ -55,7 +62,6 @@ class Core(object):
 				# If the expression is not ready, keep writing
 				else:
 					this.input = new
-
 
 	# Clears character by character
 	def clear(this):

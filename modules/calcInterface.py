@@ -139,7 +139,7 @@ class Interface(Tk):
 		"""Sends a character to the core to be processed.
 		(such as an inputed char)
 		"""
-		this.core.press(char)
+		this.core.pressAutoEval(char)
 		this.refreshInput()
 
 	# Write some text in the input field

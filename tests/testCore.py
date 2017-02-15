@@ -52,7 +52,7 @@ class TestCore(test.TestCase):
         for expression, expected in expressions.items():
             core.reset()
             for char in expression:
-                core.press(char)
+                core.pressAutoEval(char)
             this.assertEqual(core.input, expected, "Error on: " + expression)
 
     def test_clear(this):
