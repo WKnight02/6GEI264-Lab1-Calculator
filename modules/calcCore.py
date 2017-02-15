@@ -84,9 +84,9 @@ class Core(object):
 		"""
 		nb = r"[+-]?[\d.]+"
 		regLow = re.compile(r"(%s)[+*\/\-](%s)[+\-]$" % (nb, nb))
-		#regHigh = re.compile(r"(%s)[*\/](%s)[+*\/\-]$" % (nb, nb))
+		regHigh = re.compile(r"(%s)[*\/](%s)[+*\/\-]$" % (nb, nb))
 
-		return regLow.search(expr) #or regHigh.search(expr)
+		return regLow.search(expr) or regHigh.search(expr)
 
 	# Evaluate the input:
 	def evalInput(this):
