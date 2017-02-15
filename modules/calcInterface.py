@@ -76,9 +76,9 @@ class Interface(Tk):
 
 		# Create the keyboard
 		keyboard = [
-			"789 ()",
-			"456 +-",
-			"123 */",
+			"789 +-",
+			"456 */",
+			"123   ",
 			" 0.   "
 		]
 
