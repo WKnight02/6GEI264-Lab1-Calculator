@@ -1,6 +1,6 @@
 import unittest as test
 
-from bin.calcCore import *
+from modules.calcCore import *
 
 class TestCore(test.TestCase):
 
@@ -29,6 +29,30 @@ class TestCore(test.TestCase):
         this.assertEqual(True, test(), "Some character passed thru")
         core.input += "&é"'-è_çà'
         this.assertEqual(False, test(), "Everything passed, should not")
+
+    def test_press_auto_eval(this):
+        """Tests the auto evaluation mechanic
+        """
+        core = this.core
+
+        # List of inputs and things to see
+        expressions = {
+            "1+": "1+",
+            "1+1": "1+1",
+            "1+1+": "2+",
+            "1+2*": "1+2*",
+            "1+2*2": "1+2*2",
+            "1+2*2+": "5+",
+            "2*": "2*",
+            "2*2": "2*2",
+            "2*2*": "4*",
+        }
+
+        for expression, expected in expressions.items():
+            core.reset()
+            for char in expression:
+                core.press(char)
+            this.assertEqual(core.input, expected, "Error on: " + expression)
 
     def test_clear(this):
         """Tests if we can clear the input/history
