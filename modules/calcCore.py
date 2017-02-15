@@ -101,7 +101,7 @@ class Core(object):
 		result = this.evalExpression(this.input)
 		this.clearAll()
 
-		if result is not None and result != 0:
+		if result is not None:
 			this.input = str(result)
 		return result
 
