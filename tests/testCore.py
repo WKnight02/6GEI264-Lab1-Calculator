@@ -81,6 +81,7 @@ class TestCore(test.TestCase):
 
     def test_evaluation(this):
         """Tests if the evaluation is rather correct
+		EDIT: not really relevant since v2, but this behavior should still be respected
         """
         core = this.core
 
