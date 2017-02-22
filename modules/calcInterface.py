@@ -24,6 +24,8 @@ class Interface(Tk):
 		super().__init__()
 
 		this.core = core
+		
+		this.buttons = {}
 
 		this.bind("<Key>", this.keyPressed)
 
@@ -70,11 +72,16 @@ class Interface(Tk):
 		clearButtons = Frame(this, borderwidth=2, relief=GROOVE)
 
 		# Actual clear buttons
-		Button(clearButtons, font=this.ButtonFont, text="Effacer",command=lambda: this.refreshInput(this.core.clear)).pack(side=LEFT, expand=Y, fill=BOTH)
+		clearButton = Button(clearButtons, font=this.ButtonFont, text="Effacer",command=lambda: this.refreshInput(this.core.clear))
+		clearButton.pack(side=LEFT, expand=Y, fill=BOTH)
+		this.buttons["backspace"] = clearButton
 
-		Button(clearButtons, font=this.ButtonFont, text="Reset",command=lambda: this.refreshInput(this.core.reset)).pack(side=RIGHT, expand=Y, fill=BOTH)
+		resetButton = Button(clearButtons, font=this.ButtonFont, text="Reset",command=lambda: this.refreshInput(this.core.reset))
+		resetButton.pack(side=RIGHT, expand=Y, fill=BOTH)
 
-		Button(clearButtons, font=this.ButtonFont, text="Tout effacer",command=lambda: this.refreshInput(this.core.clearAll)).pack(side=RIGHT, expand=Y, fill=BOTH)
+		clearAllButton = Button(clearButtons, font=this.ButtonFont, text="Tout effacer",command=lambda: this.refreshInput(this.core.clearAll))
+		clearAllButton.pack(side=RIGHT, expand=Y, fill=BOTH)
+		this.buttons["delete"] = clearAllButton
 
 		# Create the keyboard
 		keyboard = [
@@ -103,14 +110,18 @@ class Interface(Tk):
 				# LOL
 				command = (lambda x: (lambda: this.sendInput(x)))(label)
 
-				Button(keyboardButtons, font=this.ButtonFont, text=label, borderwidth=1, command=command).grid(row=row, column=column, sticky=N+S+E+W)
+				butt = Button(keyboardButtons, font=this.ButtonFont, text=label, borderwidth=1, command=command)
+				butt.grid(row=row, column=column, sticky=N+S+E+W)
+				this.buttons[label] = butt
 
 		# IMP button
 		Button(keyboardButtons, font=this.ButtonFont, text="IMP", borderwidth=1, command=this.printHistory).grid(row=row, column=column-1, sticky=N+S+E+W)
 
 		# '=' button
-		Button(keyboardButtons, font=this.ButtonFont, text="=", borderwidth=1, command=this.evaluate).grid(row=row, column=column, sticky=N+S+E+W)
-
+		butt = Button(keyboardButtons, font=this.ButtonFont, text="=", borderwidth=1, command=this.evaluate)
+		butt.grid(row=row, column=column, sticky=N+S+E+W)
+		this.buttons["return"] = butt
+		
 		# Display
 		p.add(screen)
 		p.add(clearButtons)
@@ -123,6 +134,12 @@ class Interface(Tk):
 		If it can perform an action (eval, quit, etc...) it will not send it to the core, otherwise it will.
 		"""
 		sym = event.keysym.lower()
+		
+		butt = this.buttons.get(event.char) or this.buttons.get(sym)
+		if butt is not None:
+			butt.config(relief=SUNKEN)
+			this.after(100, lambda: butt.config(relief=RAISED))
+		
 		if not this.action(sym):
 			this.sendInput(event.char)
 
