@@ -3,6 +3,8 @@
 The calculator's core functions
 """
 
+__all__ = ['Core']
+
 #from .calcZeroDivision import *
 import re
 
@@ -14,7 +16,7 @@ class Core(object):
 	HISTORY_LEN = 6
 	FLOAT_PRECISION = 2
 	OPERATORS = "+-*/"
-	CHARACTERS = "0.123456789()" + OPERATORS
+	CHARACTERS = "0.123456789" + OPERATORS
 
 	FORBIDDEN = "|".join([
 		r"\+\+",

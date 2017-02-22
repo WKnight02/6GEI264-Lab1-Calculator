@@ -5,6 +5,8 @@ from tkinter import *
 from tkinter import filedialog
 import tkinter.font as font
 
+__all__ = ['Interface']
+
 class Interface(Tk):
 	"""Calculator's interface
 	On its own, it does only manage buttons and displays.
