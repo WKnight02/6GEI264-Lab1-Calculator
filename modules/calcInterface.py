@@ -30,7 +30,7 @@ class Interface(Tk):
 		this.bind("<Key>", this.keyPressed)
 
 		this.Actions = {
-			"escape": this.destroy,
+			"escape": this.resetOrQuit,
 			"return": this.evaluate,
 			"backspace": lambda: this.refreshInput(this.core.clear),
 			"delete": lambda: this.refreshInput(this.core.clearAll),
@@ -78,6 +78,7 @@ class Interface(Tk):
 
 		resetButton = Button(clearButtons, font=this.ButtonFont, text="Reset",command=lambda: this.refreshInput(this.core.reset))
 		resetButton.pack(side=RIGHT, expand=Y, fill=BOTH)
+		this.buttons["escape"] = resetButton
 
 		clearAllButton = Button(clearButtons, font=this.ButtonFont, text="Tout effacer",command=lambda: this.refreshInput(this.core.clearAll))
 		clearAllButton.pack(side=RIGHT, expand=Y, fill=BOTH)
@@ -127,7 +128,15 @@ class Interface(Tk):
 		p.add(clearButtons)
 		p.add(keyboardButtons)
 		p.pack(side=TOP, expand=Y, fill=BOTH, pady=5, padx=5)
-
+	
+	# If core is not at 'zero state', reset, else quit
+	def resetOrQuit(this):
+		"""Reset the core if not at zero
+		Close the app if system is reseted
+		"""
+		if this.core.isAtZero(): this.destroy()
+		else: this.refreshInput(this.core.reset)
+	
 	# Triggered when a key is pressed
 	def keyPressed(this, event):
 		"""Handles key pressed calls

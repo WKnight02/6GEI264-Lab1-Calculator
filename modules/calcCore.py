@@ -34,8 +34,15 @@ class Core(object):
 	def reset(this):
 		"""Clears both the input and the history.
 		"""
-		this.input = ""
-		this.history = ["" for i in range(this.HISTORY_LEN)]
+		this.input = ''
+		this.history = ['' for i in range(this.HISTORY_LEN)]
+	
+	# Checks if everything is at zero
+	def isAtZero(this):
+		"""Checks if the core is at its 'zero' state:
+		(as if it was just initialized)
+		"""
+		return this.isHistoryEmpty() and this.input.strip() == ''
 
 	# Add character to input
 	def press(this, char):
@@ -78,6 +85,12 @@ class Core(object):
 		"""Clears the input.
 		"""
 		this.input = ""
+	
+	# Checks if the history is empty
+	def isHistoryEmpty(this):
+		"""Checks if the history is empty
+		"""
+		return this.history.count('') == this.HISTORY_LEN
 
 	# Adds an entry to the history
 	def addToHistory(this, expr):

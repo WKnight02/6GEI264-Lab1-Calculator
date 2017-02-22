@@ -81,7 +81,7 @@ class TestCore(test.TestCase):
 
     def test_evaluation(this):
         """Tests if the evaluation is rather correct
-		EDIT: not really relevant since v2, but this behavior should still be respected
+        EDIT: not really relevant since v2, but this behavior should still be respected
         """
         core = this.core
 
@@ -147,8 +147,11 @@ class TestCore(test.TestCase):
         # Put some input and evaluate it
         core.input = "1+2"
         core.evalInput()
+        
+        this.assertFalse(core.isAtZero())
         core.reset()
+        this.assertTrue(core.isAtZero())
 
         # Is everything cleaned ?
-        this.assertEqual(len([0 for i in core.history if len(i) > 0]), 0)
-        this.assertEqual(core.input, "")
+        this.assertEqual(core.history.count(''), core.HISTORY_LEN)
+        this.assertEqual(core.input, '')
